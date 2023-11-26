@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Origin2D documentation</title>
+
+	<link rel="stylesheet" type="text/css" href="style/sidebar.css"/>
+	<link rel="stylesheet" href="style/prism.css">
+</head>
+<body>
+	<div class="sidebar"><ul>
+		<h1>Navigate</h1>
+		<li>Introduction</li>
+
+		<li> Get started <ul>
+			<li>&rarr; <a href="">What is Origin2D</a></li>
+			<li><a href="content/window.html">Creating a window</a></li>
+		</ul></li>
+	</ul></div>
+
+	<div class="content">
+		<h1>Origin 2D</h1>
+
+		<p>Origin 2D is a game develepement framework for python
+		that is based on <a href="https://pyga.me">pygame</a>,</p>
+		designed to simplify process of game developement.</p>
+
+		<h2>Main goals</h2>
+		<ul>
+			<li>Straigt forward documentation</li>
+			<li>Easy debugging</li>
+			<li>High level tools</li>
+			<li>Simple project structure</li>
+		</ul>
+
+		<h2>Project structure</h1>
+		<pre><code class="language-">*
+|- assets/
+|   |- textures/
+|   |   `- test_sprite_sheet.png
+|   |
+|   `- icon_16x16.pnf
+|
+|- core/
+|   `- ...
+|
+|- scenes/
+|   |- __init__.py
+|   `- main_menu.py
+|
+'- main.py
+</code></pre>
+
+		<h2>Creating a simple window</h1>
+
+		main.py
+		<pre><code class="language-python">import core
+import scenes
+
+if __name__ == "__main__":
+    main_scene = core.Scene(
+        callback_init=scenes.main_menu.init,
+        callback_update=scenes.main_menu.update,
+        callback_draw=scenes.main_menu.draw,
+        name="main_scene"
+    )
+    
+    game = core.Game()
+    game.change_scene(main_scene)
+    game.run()</code></pre>
+
+    	__init__.py
+    	<pre><code class="language-python">import scenes.main_menu as main_menu</code></pre>
+
+    	main_menu.py
+    	<pre><code class="language-python">import core
+import pygame as pg
+
+
+
+sprites = []
+
+
+def init(scene) -> None:
+	scene.fill_color = pg.Color("#222034")
+
+	global sprites
+	sprites = core.sprite_sheet.load("assets/textures/test_sprite_sheet.png")
+
+	sprites[0] = pg.transform.scale(sprites[0], (128, 128))
+	sprites[1] = pg.transform.scale(sprites[1], (128, 128))
+
+
+def update(scene: core.Scene, delta: float) -> None:
+	pass
+
+
+def draw(scene: core.Scene, window: core.Window) -> None:
+	window.surface.blit(sprites[0], core.surface.centrify(sprites[0], (250-64, 250)))
+	window.surface.blit(sprites[1], core.surface.centrify(sprites[1], (250+64, 250)))</code></pre>
+
+	</div>
+
+	<script src="scripts/prism.js"></script>
+</body>
+</html>
