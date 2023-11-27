@@ -1,25 +1,24 @@
-import core
 import pygame as pg
 
+import core
+import resources
 
 
-sprites = []
+
+player = None
 
 
-def init(scene) -> None:
+def init(game: core.Game, scene: core.Scene) -> None:
 	scene.fill_color = pg.Color("#222034")
-
-	global sprites
-	sprites = core.sprite_sheet.load("assets/textures/test_sprite_sheet.png")
-
-	sprites[0] = pg.transform.scale(sprites[0], (128, 128))
-	sprites[1] = pg.transform.scale(sprites[1], (128, 128))
+	game
+	
+	global player
+	player = resources.Player()
 
 
-def update(scene: core.Scene, delta: float) -> None:
-	pass
+def update(game: core.Game, scene: core.Scene, delta: float) -> None:
+	player.update(scene, delta)
 
 
-def draw(scene: core.Scene, window: core.Window) -> None:
-	window.surface.blit(sprites[0], core.surface.centrify(sprites[0], (250-64, 250)))
-	window.surface.blit(sprites[1], core.surface.centrify(sprites[1], (250+64, 250)))
+def draw(game: core.Game, scene: core.Scene, window: core.Window) -> None:
+	player.draw(window)

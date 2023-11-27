@@ -18,9 +18,11 @@ except ImportError:
 # Import core libraries
 from core.window import Window
 from core.scene import Scene
+from core.actor import Actor
 from core.game import Game
 
 import core.sprite_sheet as sprite_sheet
+import core.input_manager as input_manager
 import core.surface as surface
 import core.term as term
 import core.logging as _

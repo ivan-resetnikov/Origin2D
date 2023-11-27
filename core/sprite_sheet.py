@@ -59,6 +59,8 @@ def load(path: str) -> list[pg.Surface]:
 
 					height += 1
 
+				if not pixel_color == GREEN: height -= 1
+
 				# Crop sprite from spritesheet
 				sprite = sprite_sheet.subsurface((
 					x + 1, y + 1,
@@ -68,5 +70,7 @@ def load(path: str) -> list[pg.Surface]:
 					sprite.set_colorkey((0, 0, 0))
 
 				sprites.append(sprite)
+
+	logging.debug(f"Loaded {len(sprites)} sprites")
 
 	return sprites

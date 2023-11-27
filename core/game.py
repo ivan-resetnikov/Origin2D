@@ -4,6 +4,8 @@ import logging
 from core.scene import Scene
 from core.window import Window
 
+import core.input_manager as input_manager
+
 
 
 class Game:
@@ -13,7 +15,7 @@ class Game:
 	"""
 
 	def __init__(self):
-		self.window = Window(
+		self.__window = Window(
 			size=(500, 500),
 			title="Window")
 
@@ -46,17 +48,27 @@ class Game:
 	def run(self) -> None:
 		logging.info("Starting game")
 
-		self.current_scene.callback_init(self.current_scene)
+		self.current_scene.callback_init(self, self.current_scene)
 
 		while self.running:
+			input_manager._clear_input_buffer()
+
 			for event in pg.event.get():
-				if event.type == pg.QUIT:
-					self.running = False
+				match event.type:
+					case pg.QUIT:
+						self.running = False
 
-			self.window.surface.fill(self.current_scene.fill_color)
+					case pg.KEYDOWN:
+						input_manager._add_just_pressed(event.key)
 
-			self.current_scene.callback_update(self.current_scene, self.__delta)
-			self.current_scene.callback_draw(self.current_scene, self.window)
+					case pg.KEYUP:
+						input_manager._add_just_released(event.key)
+
+
+			self.__window.surface.fill(self.current_scene.fill_color)
+
+			self.current_scene.callback_update(self, self.current_scene, self.__delta)
+			self.current_scene.callback_draw(self, self.current_scene, self.__window)
 
 			pg.display.flip()
 			self.__delta = self.__clock.tick(self.fps) * self.__delta_factor

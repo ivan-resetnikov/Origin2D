@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Window Origin2D</title>
+
+	<link rel="stylesheet" type="text/css" href="../style/sidebar.css"/>
+	<link rel="stylesheet" href="../style/prism.css">
+</head>
+<body>
+	<h1>Origin 2D</h1>
+
+	<div class="sidebar"><ul>
+		<h1>Navigate</h1>
+		<li>Introduction</li>
+
+		<li> Get started <ul>
+			<li><a href="../index.html">What is Origin2D</a></li>
+			<li>&rarr; <a href="">Creating a window</a></li>
+		</ul></li>
+	</ul></div>
+
+	<div class="content">
+		<h1>Window</h1>
+
+		<h2>Creating an empty window</h2>
+
+		<p>
+		Origin2D's structure is diffecret for your any other framework.<br>
+		It takes more "game-engine-like" approach, like using abstract layers,<br>
+		like scenes, actors etc.<br>
+		</p>
+
+		<p><b>Scene</b> - is a "container" for something like a level,<br>
+		scene can represent a main menu, settings menu, a game level etc.</p>
+
+		<p><b>Actor</b> - is a component of a scene, actor can represent<br>
+		a player, an enemy, a bullet, an item etc.</p>
+
+
+		<h2>Creating a main scene</h2>
+
+		<p>First let's create our <u>main.py</u>
+		</p>
+
+		<u>main.py</u>
+		<pre><code class="language-python">
+import core       # import Origin2D's core
+import main_menu  # import your main scene
+
+
+
+if __name__ == "__main__":
+	main_scene = core.Scene(
+		callback_init=main_menu.init,      # initialisation function, called when scene is loaded
+		callback_update=main_menu.update,  # update function, called every frame
+		callback_draw=main_menu.draw,      # draw function, called every frame
+		name="main_scene")                 # scene name
+
+	game = core.Game()             # game (game manager) instance, controlls the entire game
+	game.change_scene(main_scene)  # Change scene to our main scene
+	game.run()                     # Run the game
+		</code></pre>
+
+		<p>As a side note: It is important that you <b>first</b>,<br>
+		load your scene, and only then you run your game.</p>
+
+		<h2>Creating a main scene</h2>
+
+		main_menu.py
+		<pre><code class="language-python">
+import pygame as pg
+
+import core
+import resources
+
+
+
+def init(scene: core.Scene) -> None:
+	pass # Initiasation code goes here
+
+
+def update(scene: core.Scene, delta: float) -> None:
+	pass # Update code goes here
+
+
+def draw(scene: core.Scene, window: core.Window) -> None:
+	pass # Draw your game here
+		</code></pre>
+
+		<p><a href="#">Init function</a> is being called when scene is loaded,<br>
+		it's recomended to initialize your game components here. (Player, enemies, level objects etc.)</p>
+
+		<p><a href="#">Update function</a> is being called every frame, it is recomended<br>
+		to run all update loginc here. (Moving a player when certain key is pressed, enemies logic, etc.)</p>
+		
+		<p><a href="#">Draw function</a> is also being called every frame, it is recomended<br>
+		to do all draw logic here. (Drawing player sprite, animating actors, etc.)</p>
+	</div>
+
+	<script src="../scripts/prism.js"></script>
+</body>
+</html>
